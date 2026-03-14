@@ -1,6 +1,6 @@
 services:
-  api:
-    image: ghcr.io/tjhorner/transit-tracker-api:main
+  transit-tracker-api:
+    build: .
     depends_on:
       - postgres
       - redis

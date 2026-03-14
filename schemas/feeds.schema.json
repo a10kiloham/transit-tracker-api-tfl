@@ -168,12 +168,32 @@
                 }
               },
               "additionalProperties": false
-            }
-          },
-          "required": [
-            "name",
-            "description"
-          ],
+              },
+              "tfl": {
+                "type": "object",
+                "description": "Configuration parameters for a TfL (Transport for London) feed.",
+                "properties": {
+                  "baseUrl": {
+                    "type": "string",
+                    "examples": [
+                      "https://api.tfl.gov.uk"
+                    ],
+                    "description": "Base URL to the TfL API. Defaults to https://api.tfl.gov.uk",
+                    "format": "uri",
+                    "default": "https://api.tfl.gov.uk"
+                  },
+                  "apiKey": {
+                    "type": "string",
+                    "description": "Optional TfL API key (app_key). Allows higher rate limits."
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "description"
+            ],
           "oneOf": [
             {
               "required": [
@@ -183,7 +203,8 @@
                 "required": [
                   "onebusaway",
                   "hafas",
-                  "mvg"
+                  "mvg",
+                  "tfl"
                 ]
               }
             },
@@ -195,7 +216,8 @@
                 "required": [
                   "gtfs",
                   "hafas",
-                  "mvg"
+                  "mvg",
+                  "tfl"
                 ]
               }
             },
@@ -207,7 +229,8 @@
                 "required": [
                   "gtfs",
                   "onebusaway",
-                  "mvg"
+                  "mvg",
+                  "tfl"
                 ]
               }
             },
@@ -219,7 +242,21 @@
                 "required": [
                   "gtfs",
                   "onebusaway",
-                  "hafas"
+                  "hafas",
+                  "tfl"
+                ]
+              }
+            },
+            {
+              "required": [
+                "tfl"
+              ],
+              "not": {
+                "required": [
+                  "gtfs",
+                  "onebusaway",
+                  "hafas",
+                  "mvg"
                 ]
               }
             }

@@ -9,6 +9,7 @@ import { FeedService } from "./feed.service"
 import { FeedsController } from "./feeds.controller"
 import { HafasModule } from "./modules/hafas/hafas.module"
 import { MvgModule } from "./modules/mvg/mvg.module"
+import { TflModule } from "./modules/tfl/tfl.module"
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MvgModule } from "./modules/mvg/mvg.module"
     OneBusAwayModule,
     HafasModule,
     MvgModule,
+    TflModule,
   ],
   controllers: [FeedsController],
   providers: [FeedService, FeedSyncService],
