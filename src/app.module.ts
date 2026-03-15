@@ -1,11 +1,12 @@
 import { ThrottlerStorageRedisService } from "@nest-lab/throttler-storage-redis"
 import { Module } from "@nestjs/common"
-import { APP_FILTER, APP_GUARD } from "@nestjs/core"
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core"
 import { EventEmitterModule } from "@nestjs/event-emitter"
 import { ScheduleModule } from "@nestjs/schedule"
 import { seconds, ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler"
 import { SentryGlobalFilter, SentryModule } from "@sentry/nestjs/setup"
 import { OpenTelemetryModule } from "nestjs-otel"
+import { LoggingInterceptor } from "./interceptors/logging.interceptor"
 import { SmokeTestCommand } from "./commands/smoke-test.command"
 import { SyncCommand } from "./commands/sync.command"
 import { HealthController } from "./health/health.controller"
@@ -65,6 +66,10 @@ import { SystemAlertListener } from "./system-alert.listener"
     {
       provide: APP_FILTER,
       useClass: SentryGlobalFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
     },
   ],
 })

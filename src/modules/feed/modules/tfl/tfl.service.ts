@@ -125,6 +125,18 @@ export class TflService implements FeedProvider {
     )
   }
 
+  private getDirectionLabel(platformName: string): string {
+    const label = platformName.split(" - ")[0]?.trim()
+    return label || platformName
+  }
+
+  private getDirectionalRouteId(
+    lineId: string,
+    direction: string,
+  ): string {
+    return `${lineId}-${direction}`
+  }
+
   async getRoutesForStop(stopId: string): Promise<StopRoute[]> {
     return this.cache.cached(
       `routesForStop-${stopId}`,
@@ -144,12 +156,16 @@ export class TflService implements FeedProvider {
         >()
 
         for (const arrival of arrivals) {
-          const routeId = arrival.lineId
+          const routeId = this.getDirectionalRouteId(
+            arrival.lineId,
+            arrival.direction,
+          )
+          const directionLabel = this.getDirectionLabel(arrival.platformName)
           const headsign = arrival.towards || arrival.destinationName
           if (!routeMap.has(routeId)) {
             routeMap.set(routeId, {
               routeId,
-              name: arrival.lineName,
+              name: `${arrival.lineName} (${directionLabel})`,
               color: null,
               headsigns: new Set([headsign]),
             })
@@ -267,7 +283,9 @@ export class TflService implements FeedProvider {
       }
 
       const filteredArrivals = arrivals.filter((a) =>
-        routeIds.includes(a.lineId),
+        routeIds.includes(
+          this.getDirectionalRouteId(a.lineId, a.direction),
+        ),
       )
 
       for (const arrival of filteredArrivals) {
@@ -277,7 +295,12 @@ export class TflService implements FeedProvider {
           continue
         }
 
-        const tripId = `${arrival.vehicleId}-${arrival.lineId}-${arrival.expectedArrival}`
+        const routeId = this.getDirectionalRouteId(
+          arrival.lineId,
+          arrival.direction,
+        )
+        const directionLabel = this.getDirectionLabel(arrival.platformName)
+        const tripId = `${arrival.vehicleId}-${routeId}-${arrival.expectedArrival}`
 
         if (
           tripStops.some((ts) => ts.tripId === tripId && ts.stopId === stopId)
@@ -290,8 +313,8 @@ export class TflService implements FeedProvider {
         tripStops.push({
           tripId,
           stopId,
-          routeId: arrival.lineId,
-          routeName: arrival.lineName,
+          routeId,
+          routeName: `${arrival.lineName} (${directionLabel})`,
           routeColor: null,
           stopName: stop.name,
           directionId: arrival.direction ?? null,
