@@ -1,5 +1,8 @@
-# Transit Tracker API
+# Transit Tracker API (London Underground version)
 
+** Hacked together to use TfL live departures board data **
+Just like you would see at a normal tube station. See the env.example for your specific station ID and then update your ESPHome base URL to this docker instance, or reverse proxy through Caddy if you use in a different network.
+----
 This is an API that is intended to be used to power a live arrivals or departures board, like [this one](https://github.com/EastsideUrbanism/transit-countdown-clock). Given a source transit feed, it will provide a WebSocket-based API that can be used to subscribe to schedule data for specific routes and stops. It can support multiple feeds at once.
 
 ## Installation
