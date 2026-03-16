@@ -80,7 +80,7 @@ export class TflService implements FeedProvider {
 
   async healthCheck(): Promise<void> {
     await this.fetchJson<TflPrediction[]>(
-      `/StopPoint/940GZZLUWSM/arrivals`,
+      `/StopPoint/${encodeURIComponent(this.config.stationId)}/arrivals`,
     )
   }
 

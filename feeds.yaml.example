@@ -5,3 +5,4 @@ feeds:
     tfl:
       # baseUrl: "https://api.tfl.gov.uk"  # optional, this is the default
       # apiKey: "your-app-key"              # optional, or set TFL_API_KEY env var
+      # stationId: "940GZZLUTCR"           # required, or set STATION_ID env var
