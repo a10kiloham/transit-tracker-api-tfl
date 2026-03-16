@@ -6,7 +6,7 @@ services:
       - transit-tracker-postgres
       - transit-tracker-redis
     env_file:
-      - /home/robk/transit-tracker-api/.env
+      - .env
     environment:
       # Uncomment the below line if running through a reverse proxy (e.g., nginx, caddy, traefik)
       # TRUST_PROXY: "true"
